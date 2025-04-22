@@ -1,0 +1,322 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    background-color: #1f2640;
+    color: white;
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.logo {
+    height: 75px; /* 25% bigger than original 60px */
+    display: block;
+    margin: 0 auto; /* Ensures horizontal centering */
+}
+
+/* Language Selector */
+.language-selector {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.lang-btn {
+    background: none;
+    border: 2px solid transparent;
+    padding: 3px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lang-btn:hover {
+    transform: scale(1.1);
+}
+
+.lang-btn.active {
+    border-color: white;
+}
+
+.flag-icon {
+    width: 30px;
+    height: 20px;
+    display: block;
+    object-fit: cover;
+}
+
+/* Main content */
+main {
+    flex: 1;
+    position: relative;
+}
+
+/* Map container */
+#map-container {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 90px);
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Booking Panel */
+.booking-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 340px;
+    z-index: 10;
+    overflow: hidden;
+}
+
+/* Booking tabs */
+.booking-tabs {
+    display: flex;
+    width: 100%;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.tab-header {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.date-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-input label {
+    font-size: 14px;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+.date-input input {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Boat Details */
+.boat-details {
+    padding: 15px;
+}
+
+.select-container {
+    margin-bottom: 15px;
+}
+
+.select-container label {
+    display: block;
+    font-size: 14px;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+.custom-select {
+    position: relative;
+}
+
+.custom-select select {
+    width: 100%;
+    padding: 10px 35px 10px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: white;
+    font-size: 14px;
+}
+
+.custom-select i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    pointer-events: none;
+}
+
+/* Check Availability Button */
+.check-availability-btn {
+    width: calc(100% - 30px);
+    margin: 0 15px 15px;
+    padding: 12px 0;
+    background-color: #1f2640;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.check-availability-btn:hover {
+    background-color: #293555;
+}
+
+/* Popup styles */
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    position: relative;
+}
+
+.close-popup {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #495057;
+}
+
+.popup-title {
+    font-size: 20px;
+    color: #1f2640;
+    margin-bottom: 15px;
+}
+
+.popup-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #495057;
+    margin-bottom: 15px;
+}
+
+.popup-hours h4 {
+    font-size: 16px;
+    color: #1f2640;
+    margin-bottom: 5px;
+}
+
+.popup-hours p {
+    font-size: 14px;
+    color: #495057;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Custom marker styles */
+.marker-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1f2640;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+/* Different color dots on the map */
+.green-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #28a745;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.red-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #dc3545;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .booking-panel {
+        width: calc(100% - 40px);
+        max-width: 400px;
+    }
+    
+    .logo {
+        height: 40px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .booking-tabs {
+        flex-direction: column;
+    }
+    
+    .popup {
+        width: 95%;
+    }
+}

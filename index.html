@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rungsted Havn - En Havn For Alle</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Leaflet CSS for the map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin="" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="images/Rungsted-Havn-web-2.png" alt="Rungsted Havn Logo" class="logo">
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn active" data-lang="da">
+                    <img src="images/DK.svg" alt="Danish" class="flag-icon">
+                </button>
+                <button class="lang-btn" data-lang="en">
+                    <img src="images/EN.svg" alt="English" class="flag-icon">
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div id="map-container">
+            <div id="map"></div>
+            
+            <div class="booking-panel">
+                <div class="booking-tabs">
+                    <div class="tab">
+                        <div class="tab-header">Ankomst</div>
+                        <div class="date-input">
+                            <label for="arrival-date">Dato</label>
+                            <input type="date" id="arrival-date" name="arrival-date">
+                        </div>
+                    </div>
+                    <div class="tab">
+                        <div class="tab-header">Afgang</div>
+                        <div class="date-input">
+                            <label for="departure-date">Dato</label>
+                            <input type="date" id="departure-date" name="departure-date">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="boat-details">
+                    <div class="select-container">
+                        <label for="boat-length">Bådlængde</label>
+                        <div class="custom-select">
+                            <select id="boat-length" name="boat-length">
+                                <option value="">Vælg længde</option>
+                                <option value="small">Under 8 meter</option>
+                                <option value="medium">8-12 meter</option>
+                                <option value="large">Over 12 meter</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="select-container">
+                        <label for="boat-width">Bådbredde</label>
+                        <div class="custom-select">
+                            <select id="boat-width" name="boat-width">
+                                <option value="">Vælg bredde</option>
+                                <option value="narrow">Under 3 meter</option>
+                                <option value="medium">3-4 meter</option>
+                                <option value="wide">Over 4 meter</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="check-availability-btn">Tjek tilgængelighed</button>
+            </div>
+        </div>
+        
+        <!-- Popup template -->
+        <div id="popup-template" class="popup-container hidden">
+            <div class="popup">
+                <button class="close-popup">&times;</button>
+                <h3 class="popup-title">Provianten</h3>
+                <p class="popup-description">På den stemningsfulde Rungsted Havn, hvor lystsejlere og andre gode mennesker mødes, ligger Proviant Rungsted Havn, som navnet fremgår, arbejder vi med proviantering.</p>
+                <div class="popup-hours">
+                    <h4>Åbningstider i dag</h4>
+                    <p>11:00 - 17:00</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Leaflet JS for the map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
+    <script src="js/map.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
