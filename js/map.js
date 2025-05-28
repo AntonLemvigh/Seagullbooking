@@ -48,18 +48,34 @@ document.addEventListener('DOMContentLoaded', function() {
             icon: createCustomMarker(loc.id)
         }).addTo(map);
         
-        // Add click event to open popup
+        // Add click event to handle different markers
         marker.on('click', function() {
-            if (loc.id === 1) { // Only show popup for Provianten
+            if (loc.id === 1) { // Provianten - show popup
                 const popup = document.getElementById('popup-template');
                 
-                // Update popup content if needed
+                // Update popup content
                 popup.querySelector('.popup-title').textContent = loc.name;
                 popup.querySelector('.popup-description').textContent = loc.description;
                 popup.querySelector('.popup-hours p').textContent = loc.hours;
                 
                 // Show the popup
                 popup.classList.remove('hidden');
+            } else { // Other docks - handle spot selection
+                // Store selected spot
+                localStorage.setItem('selectedSpot', loc.name);
+                
+                // Visual feedback - highlight selected marker
+                document.querySelectorAll('.custom-marker').forEach(m => m.classList.remove('selected'));
+                marker.getElement().classList.add('selected');
+                
+                // Update booking panel or show selection feedback
+                const currentLang = document.documentElement.lang || 'da';
+                const message = currentLang === 'da' ? 
+                    `${loc.name} valgt - klik "Tjek tilgængelighed" for at fortsætte` :
+                    `${loc.name} selected - click "Check Availability" to continue`;
+                
+                // Create a temporary notification
+                showSpotSelection(loc.name, message);
             }
         });
     });
@@ -77,6 +93,35 @@ document.addEventListener('DOMContentLoaded', function() {
         L.marker(coords, { icon: dotIcon }).addTo(map);
     });
     
+    // Function to show spot selection notification
+    function showSpotSelection(spotName, message) {
+        // Remove any existing notifications
+        const existingNotification = document.querySelector('.spot-notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = 'spot-notification';
+        notification.innerHTML = `
+            <i class="fa-solid fa-check-circle"></i>
+            <span>${message}</span>
+        `;
+        
+        // Add to page
+        document.body.appendChild(notification);
+        
+        // Show notification
+        setTimeout(() => notification.classList.add('show'), 100);
+        
+        // Hide notification after 4 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 4000);
+    }
+
     // Disable scroll zoom to prevent map from zooming when scrolling the page
-    map.scrollWheelZoom.enabled();
+    map.scrollWheelZoom.disable();
 });

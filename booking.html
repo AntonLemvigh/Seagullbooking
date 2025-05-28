@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking - Rungsted Havn</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/booking.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Loading overlay -->
+    <div class="page-loading" id="page-loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="images/Rungsted-Havn-web-2.png" alt="Rungsted Havn Logo" class="logo">
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn active" data-lang="da">
+                    <img src="images/DK.svg" alt="Danish" class="flag-icon">
+                </button>
+                <button class="lang-btn" data-lang="en">
+                    <img src="images/EN.svg" alt="English" class="flag-icon">
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="booking-main">
+        <div class="booking-container">
+            <!-- Back button -->
+            <button class="back-btn" onclick="window.history.back()">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Tilbage til kort</span>
+            </button>
+
+            <div class="booking-content">
+                <!-- Left column - Booking details -->
+                <div class="booking-details">
+                    <h1>Bekræft din reservation</h1>
+                    
+                    <!-- Selected spot summary -->
+                    <div class="selection-summary">
+                        <h2>Valgte detaljer</h2>
+                        <div class="summary-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div>
+                                <strong>Båd spot:</strong>
+                                <span id="selected-spot">Dock 3</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fa-solid fa-calendar"></i>
+                            <div>
+                                <strong>Periode:</strong>
+                                <span id="selected-dates">28. maj - 29. maj 2025</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fa-solid fa-ship"></i>
+                            <div>
+                                <strong>Båd:</strong>
+                                <span id="selected-boat">8-12 meter, 3-4 meter bred</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Availability status -->
+                    <div class="availability-status available">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Tilgængelig for valgte periode</span>
+                    </div>
+
+                    <!-- Contact information form -->
+                    <div class="contact-form">
+                        <h2>Kontaktoplysninger</h2>
+                        <form id="booking-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name">Fornavn *</label>
+                                    <input type="text" id="first-name" name="first-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name">Efternavn *</label>
+                                    <input type="text" id="last-name" name="last-name" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Email *</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Telefon *</label>
+                                    <input type="tel" id="phone" name="phone" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="boat-name">Bådnavn</label>
+                                <input type="text" id="boat-name" name="boat-name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="special-requests">Særlige ønsker</label>
+                                <textarea id="special-requests" name="special-requests" rows="3" placeholder="F.eks. strøm, vand, særlige behov..."></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right column - Price summary and payment -->
+                <div class="price-summary">
+                    <h2>Pris oversigt</h2>
+                    
+                    <div class="price-breakdown">
+                        <div class="price-item">
+                            <span>Ligeplads (1 nat)</span>
+                            <span>350 DKK</span>
+                        </div>
+                        <div class="price-item">
+                            <span>Strøm</span>
+                            <span>50 DKK</span>
+                        </div>
+                        <div class="price-item">
+                            <span>Vand</span>
+                            <span>25 DKK</span>
+                        </div>
+                        <div class="price-item service-fee">
+                            <span>Service gebyr</span>
+                            <span>25 DKK</span>
+                        </div>
+                        <hr>
+                        <div class="price-total">
+                            <span><strong>Total</strong></span>
+                            <span><strong>450 DKK</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Payment method -->
+                    <div class="payment-section">
+                        <h3>Betalingsmetode</h3>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="mobilepay" checked>
+                                <div class="payment-content">
+                                    <i class="fa-solid fa-mobile-screen"></i>
+                                    <span>MobilePay</span>
+                                </div>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="card">
+                                <div class="payment-content">
+                                    <i class="fa-solid fa-credit-card"></i>
+                                    <span>Kreditkort</span>
+                                </div>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="bank">
+                                <div class="payment-content">
+                                    <i class="fa-solid fa-building-columns"></i>
+                                    <span>Bankoverførsel</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Terms and conditions -->
+                    <div class="terms">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="accept-terms" required>
+                            <span class="checkmark"></span>
+                            <span>Jeg accepterer <a href="#" class="terms-link">handelsbetingelserne</a></span>
+                        </label>
+                    </div>
+
+                    <!-- Book now button -->
+                    <button class="book-now-btn" id="book-now-btn">
+                        <i class="fa-solid fa-lock"></i>
+                        Bekræft reservation
+                    </button>
+
+                    <!-- Security notice -->
+                    <div class="security-notice">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Sikker betaling - dine data er beskyttet</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Booking confirmation modal -->
+    <div id="confirmation-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Reservation bekræftet!</h2>
+                <i class="fa-solid fa-circle-check success-icon"></i>
+            </div>
+            <div class="modal-body">
+                <p>Tak for din booking. Du vil modtage en bekræftelse på email inden for få minutter.</p>
+                <div class="booking-reference">
+                    <strong>Booking reference:</strong>
+                    <span id="booking-ref">RH-2025-001234</span>
+                </div>
+                <div class="next-steps">
+                    <h3>Næste skridt:</h3>
+                    <ul>
+                        <li>Tjek din email for booking bekræftelse</li>
+                        <li>Mød op på havnen på ankomstdagen</li>
+                        <li>Ring til havnefogeden på +45 12 34 56 78 hvis du har spørgsmål</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="window.location.href='index.html'">Tilbage til kort</button>
+                <button class="btn-primary" onclick="window.print()">Print bekræftelse</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/booking.js"></script>
+</body>
+</html>

@@ -127,22 +127,58 @@ document.addEventListener('DOMContentLoaded', function() {
         const departureDate = document.getElementById('departure-date').value;
         const boatLength = document.getElementById('boat-length').value;
         const boatWidth = document.getElementById('boat-width').value;
+        const currentLang = document.documentElement.lang || 'da';
         
         // Simple validation
         if (!arrivalDate || !departureDate) {
-            alert('Please select both arrival and departure dates');
+            const message = currentLang === 'da' ? 
+                'Vælg venligst både ankomst- og afgangsdato' : 
+                'Please select both arrival and departure dates';
+            alert(message);
             return;
         }
         
         if (!boatLength || !boatWidth) {
-            alert('Please select both boat length and width');
+            const message = currentLang === 'da' ? 
+                'Vælg venligst både bådlængde og bådbredde' : 
+                'Please select both boat length and width';
+            alert(message);
             return;
         }
         
-        // You would typically send this data to a server
-        // For now, we'll just show a confirmation
-        alert('Checking availability for the selected dates and boat size...');
+        // Validate dates
+        const arrival = new Date(arrivalDate);
+        const departure = new Date(departureDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
         
-        // This would be where you'd send the data to the server and handle the response
+        if (arrival < today) {
+            const message = currentLang === 'da' ? 
+                'Ankomstdato kan ikke være i fortiden' : 
+                'Arrival date cannot be in the past';
+            alert(message);
+            return;
+        }
+        
+        if (departure <= arrival) {
+            const message = currentLang === 'da' ? 
+                'Afgangsdato skal være efter ankomstdato' : 
+                'Departure date must be after arrival date';
+            alert(message);
+            return;
+        }
+        
+        // Store booking data for the booking page
+        localStorage.setItem('arrivalDate', arrivalDate);
+        localStorage.setItem('departureDate', departureDate);
+        localStorage.setItem('boatLength', boatLength);
+        localStorage.setItem('boatWidth', boatWidth);
+        
+        // Get selected spot or use default
+        const selectedSpot = localStorage.getItem('selectedSpot') || 'Dock 3';
+        localStorage.setItem('selectedSpot', selectedSpot);
+        
+        // Navigate to booking page
+        window.location.href = 'booking.html';
     });
 });
