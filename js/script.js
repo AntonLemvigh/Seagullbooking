@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
             between3and4m: "3-4 meter",
             over4m: "Over 4 meter",
             checkAvailability: "Tjek tilgængelighed",
-            openingHours: "Åbningstider i dag"
+            openingHours: "Åbningstider i dag",
+            noDockSelected: "Ingen dock valgt"
         },
         en: {
             arrival: "Arrival",
@@ -33,7 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
             between3and4m: "3-4 meters",
             over4m: "Over 4 meters",
             checkAvailability: "Check Availability",
-            openingHours: "Opening hours today"
+            openingHours: "Opening hours today",
+            noDockSelected: "No dock selected"
         }
     };
     
@@ -99,6 +101,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update popup
         document.querySelector('.popup-hours h4').textContent = translations[language].openingHours;
+        
+        // Update dock indicator if no dock is selected
+        const dockText = document.querySelector('.dock-text');
+        if (dockText && (dockText.textContent === 'Ingen dock valgt' || dockText.textContent === 'No dock selected')) {
+            dockText.textContent = translations[language].noDockSelected;
+        }
     }
     
     // Handle popup open/close
@@ -175,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('boatWidth', boatWidth);
         
         // Get selected spot or use default
-        const selectedSpot = localStorage.getItem('selectedSpot') || 'Dock 3';
+        const selectedSpot = localStorage.getItem('selectedSpot') || 'Plads 3';
         localStorage.setItem('selectedSpot', selectedSpot);
         
         // Navigate to booking page

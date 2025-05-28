@@ -48,41 +48,25 @@ document.addEventListener('DOMContentLoaded', function() {
             icon: createCustomMarker(loc.id)
         }).addTo(map);
         
-        // Add click event to handle different markers
+        // Add click event to show information popup for facilities
         marker.on('click', function() {
-            if (loc.id === 1) { // Provianten - show popup
-                const popup = document.getElementById('popup-template');
-                
-                // Update popup content
-                popup.querySelector('.popup-title').textContent = loc.name;
-                popup.querySelector('.popup-description').textContent = loc.description;
-                popup.querySelector('.popup-hours p').textContent = loc.hours;
-                
-                // Show the popup
-                popup.classList.remove('hidden');
-            } else { // Other docks - handle spot selection
-                // Store selected spot
-                localStorage.setItem('selectedSpot', loc.name);
-                
-                // Visual feedback - highlight selected marker
-                document.querySelectorAll('.custom-marker').forEach(m => m.classList.remove('selected'));
-                marker.getElement().classList.add('selected');
-                
-                // Update booking panel or show selection feedback
-                const currentLang = document.documentElement.lang || 'da';
-                const message = currentLang === 'da' ? 
-                    `${loc.name} valgt - klik "Tjek tilgængelighed" for at fortsætte` :
-                    `${loc.name} selected - click "Check Availability" to continue`;
-                
-                // Create a temporary notification
-                showSpotSelection(loc.name, message);
-            }
+            const popup = document.getElementById('popup-template');
+            
+            // Update popup content
+            popup.querySelector('.popup-title').textContent = loc.name;
+            popup.querySelector('.popup-description').textContent = loc.description || 'Information about this location.';
+            popup.querySelector('.popup-hours p').textContent = loc.hours || 'Hours not available';
+            
+            // Show the popup
+            popup.classList.remove('hidden');
         });
     });
     
-    // Add alternating green and red dots along the harbor edge
+    // Add alternating green and red dots along the harbor edge with dock selection
     harborEdgePath.forEach((coords, index) => {
         const dotClass = index % 2 === 0 ? 'green-dot' : 'red-dot';
+        const dockNumber = index + 1;
+        const dockName = `Plads ${dockNumber}`;  // More natural Danish naming
         
         const dotIcon = L.divIcon({
             className: dotClass,
@@ -90,38 +74,73 @@ document.addEventListener('DOMContentLoaded', function() {
             iconAnchor: [6, 6]
         });
         
-        L.marker(coords, { icon: dotIcon }).addTo(map);
+        const dotMarker = L.marker(coords, { icon: dotIcon }).addTo(map);
+        
+        // Add click event for dock selection
+        dotMarker.on('click', function() {
+            // Store selected dock
+            localStorage.setItem('selectedSpot', dockName);
+            
+            // Visual feedback - remove previous selection and highlight selected dock
+            document.querySelectorAll('.green-dot, .red-dot').forEach(dot => {
+                dot.classList.remove('selected');
+            });
+            dotMarker.getElement().classList.add('selected');
+            
+            // Update booking panel if it exists (on main page)
+            updateBookingPanelDock(dockName);
+            
+            // Show selection notification
+            const currentLang = document.documentElement.lang || 'da';
+            const message = currentLang === 'da' ? 
+                `${dockName} valgt - klik "Tjek tilgængelighed" for at fortsætte` :
+                `${dockName} selected - click "Check Availability" to continue`;
+            
+            showSpotSelection(dockName, message);
+        });
     });
     
-    // Function to show spot selection notification
-    function showSpotSelection(spotName, message) {
-        // Remove any existing notifications
-        const existingNotification = document.querySelector('.spot-notification');
-        if (existingNotification) {
-            existingNotification.remove();
+    // Function to update booking panel dock selection
+    function updateBookingPanelDock(dockName) {
+        // Update selected spot for booking page
+        const selectedSpotElement = document.getElementById('selected-spot');
+        if (selectedSpotElement) {
+            selectedSpotElement.textContent = dockName;
         }
         
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = 'spot-notification';
-        notification.innerHTML = `
-            <i class="fa-solid fa-check-circle"></i>
-            <span>${message}</span>
-        `;
+        // Update the dock indicator in the booking panel (main page)
+        const dockContainer = document.querySelector('.selected-dock-container');
+        const dockText = document.querySelector('.dock-text');
         
-        // Add to page
-        document.body.appendChild(notification);
-        
-        // Show notification
-        setTimeout(() => notification.classList.add('show'), 100);
-        
-        // Hide notification after 4 seconds
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, 4000);
+        if (dockContainer && dockText) {
+            dockText.textContent = dockName;
+            dockContainer.style.display = 'block';
+        }
     }
+    
+    // Function to load previously selected dock on page load
+    function loadSelectedDock() {
+        const selectedSpot = localStorage.getItem('selectedSpot');
+        if (selectedSpot && (selectedSpot.startsWith('Dock ') || selectedSpot.startsWith('Plads '))) {
+            // Extract dock number from name (e.g., "Plads 5" -> 5 or "Dock 5" -> 5)
+            const dockNumber = parseInt(selectedSpot.split(' ')[1]);
+            if (dockNumber && dockNumber >= 1 && dockNumber <= harborEdgePath.length) {
+                // Find the corresponding dot marker and mark it as selected
+                const dotIndex = dockNumber - 1;
+                const dotElements = document.querySelectorAll('.green-dot, .red-dot');
+                if (dotElements[dotIndex]) {
+                    dotElements[dotIndex].classList.add('selected');
+                }
+                
+                // Update the booking panel
+                updateBookingPanelDock(selectedSpot);
+            }
+        }
+    }
+    
+    // Load previously selected dock after a short delay to ensure DOM is ready
+    setTimeout(loadSelectedDock, 500);
 
-    // Disable scroll zoom to prevent map from zooming when scrolling the page
-    map.scrollWheelZoom.disable();
+    // Enable scroll zoom for better map interaction
+    map.scrollWheelZoom.enable();
 });

@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function getBookingData() {
         const urlParams = new URLSearchParams(window.location.search);
         const bookingData = {
-            spot: urlParams.get('spot') || localStorage.getItem('selectedSpot') || 'Dock 3',
+            spot: urlParams.get('spot') || localStorage.getItem('selectedSpot') || 'Plads 3',
             arrivalDate: urlParams.get('arrival') || localStorage.getItem('arrivalDate') || new Date().toISOString().split('T')[0],
             departureDate: urlParams.get('departure') || localStorage.getItem('departureDate') || new Date(Date.now() + 86400000).toISOString().split('T')[0],
             boatLength: urlParams.get('length') || localStorage.getItem('boatLength') || '8-12 meter',

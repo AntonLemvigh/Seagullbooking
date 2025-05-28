@@ -285,24 +285,21 @@ main {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-.custom-marker.selected {
-    background-color: #28a745;
-    border-color: #fff;
-    transform: scale(1.2);
-    box-shadow: 0 4px 16px rgba(40, 167, 69, 0.5);
-}
-
+/* Remove selected styling from custom markers since they're now just for information */
 .marker-icon {
     color: white;
     font-weight: bold;
     font-size: 16px;
 }
 
+/* Dock dots styling */
 .green-dot {
     background-color: #28a745;
     border: 2px solid white;
     border-radius: 50%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .red-dot {
@@ -310,37 +307,79 @@ main {
     border: 2px solid white;
     border-radius: 50%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-/* Spot selection notification */
-.spot-notification {
-    position: fixed;
-    top: 100px;
-    right: 20px;
+/* Dock selection styling */
+.green-dot:hover,
+.red-dot:hover {
+    transform: scale(1.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+}
+
+/* Add touch-friendly interaction for mobile */
+@media (max-width: 768px) {
+    .green-dot,
+    .red-dot {
+        transform: scale(1.2);
+        cursor: pointer;
+    }
+    
+    .green-dot:active,
+    .red-dot:active {
+        transform: scale(1.4);
+    }
+}
+
+.green-dot.selected {
+    background-color: #ffc107;
+    border: 3px solid #fff;
+    transform: scale(1.5);
+    box-shadow: 0 4px 16px rgba(255, 193, 7, 0.6);
+    z-index: 1001;
+}
+
+.red-dot.selected {
+    background-color: #ffc107;
+    border: 3px solid #fff;
+    transform: scale(1.5);
+    box-shadow: 0 4px 16px rgba(255, 193, 7, 0.6);
+    z-index: 1001;
+}
+
+/* Selected dock indicator in booking panel */
+.selected-dock-container {
     background: linear-gradient(135deg, #28a745, #20c997);
     color: white;
-    padding: 16px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 12px 15px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    margin-bottom: 0;
     font-weight: 500;
     font-size: 14px;
-    z-index: 1000;
-    transform: translateX(100%);
-    opacity: 0;
-    transition: all 0.3s ease;
-    max-width: 300px;
+    animation: slideInFromTop 0.4s ease-out;
 }
 
-.spot-notification.show {
-    transform: translateX(0);
-    opacity: 1;
-}
-
-.spot-notification i {
+.selected-dock-container i {
     font-size: 16px;
+}
+
+.dock-text {
+    font-weight: 600;
+}
+
+@keyframes slideInFromTop {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Responsive adjustments */
